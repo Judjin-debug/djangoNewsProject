@@ -40,6 +40,9 @@ class Post(models.Model):
     rating = models.IntegerField(default=0)
     category = models.ManyToManyField(Category, through='PostCategory')
 
+    def __str__(self):
+        return f'{self.header.title()}: {self.contents}'
+
     def like(self):
         self.rating += 1
         self.save()
@@ -51,6 +54,11 @@ class Post(models.Model):
     @property
     def preview(self):
         return self.contents[:124]
+
+    @property
+    def dmy_date(self):
+        if self.time_added:
+            return self.time_added.strftime("%d.%m.%Y")
 
 
 class PostCategory(models.Model):
