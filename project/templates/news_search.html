@@ -7,9 +7,12 @@ News
 {% endblock title %}
 
 {% block content %}
-    <h1>Все новости</h1>
-    <h3>Количество новостей: {{ news|length }}</h3>
+    <h1>Поиск новостей</h1>
     <hr>
+    <form method="GET">
+        {{ filter.form }}
+        <input type="submit" value="Найти">
+    </form>
     {% if news %}
         <tr>
             <td>
@@ -23,7 +26,7 @@ News
             </td>
         </tr>
         <br>
-        {% for post in news %}
+        {% for post in filter.qs %}
             <tr>
                 <td>
                     {{ post.header|censor }}
@@ -40,4 +43,5 @@ News
     {% else %}
         <h2>Новостей нет</h2>
     {% endif %}
+
 {% endblock content %}
