@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.db import models
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Author, Category, Post, PostCategory, Comment
 from .filters import PostFilter
@@ -34,12 +35,12 @@ class NewsDetailView(DetailView):
     context_object_name = 'article'
 
 
-class NewsCreateView(CreateView):
+class NewsCreateView(LoginRequiredMixin, CreateView):
     template_name = 'news_create.html'
     form_class = PostForm
 
 
-class NewsUpdateView(UpdateView):
+class NewsUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'news_create.html'
     form_class = PostForm
 
@@ -48,7 +49,7 @@ class NewsUpdateView(UpdateView):
         return Post.objects.get(pk=id)
 
 
-class NewsDeleteView(DeleteView):
+class NewsDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'news_delete.html'
     queryset = Post.objects.all()
     success_url = '/news/'
